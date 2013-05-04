@@ -1,12 +1,14 @@
-/**
- * 
- */
+
 package home.always.learning.java;
 
-/**
- * @author tarunruchi
- *
+/*
+ * Consider this Class as your core calling class.
+ * In our demonstration, this class is like a struts action class which calls
+ * databases processes in parallel.
+ * It then joins itself to each thread in order to ensure that we return from action class
+ * once all threads have finished their respective tasks.
  */
+
 public class ThreadJoinCore {
 
 	/**
@@ -15,12 +17,11 @@ public class ThreadJoinCore {
 	public static void main(String[] args) {
 		try {
 			System.out.println("Demonstrating Thread Join Feature");
-			WorkerThreadOne wtOneObj = new WorkerThreadOne();
-			WorkerThreadTwo wtTwoObj = new WorkerThreadTwo();
+			WorkerThreadOne wtOneObj = new WorkerThreadOne("BaseCall",1L);
+			WorkerThreadOne wtTwoObj = new WorkerThreadOne("CoreCall",1L);
 			
 			Thread doProcOneObj = new Thread(wtOneObj, "WorkerThreadOne");
 			Thread doProcTwoObj = new Thread(wtTwoObj, "WorkerThreadTwo");
-			
 			
 			doProcOneObj.start();
 			doProcTwoObj.start();
@@ -31,7 +32,5 @@ public class ThreadJoinCore {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
 	}
-
 }

@@ -3,10 +3,7 @@
  */
 package home.always.learning.java;
 
-/**
- * @author tarunruchi
- *
- */
+
 public class WorkerThreadTwo implements Runnable {
 
 	/* (non-Javadoc)
