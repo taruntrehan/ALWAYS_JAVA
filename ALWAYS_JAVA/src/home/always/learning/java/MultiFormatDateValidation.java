@@ -3,8 +3,15 @@
  */
 package home.always.learning.java;
 
+import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Tarun Trehan
@@ -16,59 +23,130 @@ import java.text.SimpleDateFormat;
  * But, for catching a parse exception; we need to test it against a specified format.
  * So, for this implementation, we prepare an array that contains the formats against which we will
  * perform validation test.
- * Next, we loop the entire array and test against each format.
- * If the validation fails, test for other formats till array iteration is completed.
- * If it passes for a given format, break the loop and exit. 
+ * Next, we loop the entire list and test against each format.
+ * If the validation fails, test for other formats till list iteration is completed.
+ * If it passes for a given format, break the loop and exit.
+ * 
+ *  View the sample formats file under Input Folder.
  */
 
 public class MultiFormatDateValidation {
 
+	private static List<String> validFormatsList = null;
 	/**
 	 * @param args
 	 */
 	public static void main(String[] args) {
-		
+
 		System.out.println("Starting Data Validation Check");
+		/*
+		 * 
+		 * Loading Pre-Defined Date Formats from File.
+		 * 
+		 */
+
+		loadDateFormats("D:\\DATA\\Tarun\\Development\\Docs\\Date_Formats.txt");
+
 		/* Below Test Case is format and validity test.
 		 * 2012 was a leap year and hence 29 is a valid date.
 		 * Change year to 2013 and test.
 		 */
-		
-		isDateValid("02/29/2012 00:00:00");
+
+		boolean validationResult = isDateValid("02/29/2012 00.00.00");
+		System.out.println("Date Validation Result is :"+validationResult);
 	}
+	
 	/*
 	 * Core Function for validation check.
 	 * 
 	 */
 	public static boolean isDateValid(String dateValue)
 	{
+		SimpleDateFormat sdfObj = new SimpleDateFormat();
+		sdfObj.setLenient(false);
 		boolean returnVal = false;
 		/*
-		 * Set the permissible formats.
-		 * A better approach here would be to define all formats in a .properties file
-		 * and load the file during execution.
+		 * Loop through list of formats and validate using JAVA API.
 		 */
-		String[] permissFormats = new String[]{"MM/dd/yyyy hh:mm:ss.sss","MM/dd/yyyy hh:mm:ss","yyyy-MM-dd hh:mm:ss.sss","yyyy-MM-dd hh:mm","dd/MM/yyyy",
-				"dd-MM-yyyy","MM-dd-yyyy","ddMMyyyy"};
-		/*
-		 * Loop through array of formats and validate using JAVA API.
-		 */
-		for (int i = 0; i < permissFormats.length; i++) 
+		String patternVal = null;
+		for (int i = 0; i < validFormatsList.size(); i++) 
 		{
+			patternVal = new String(validFormatsList.get(i));
 			try
 			{
-				SimpleDateFormat sdfObj = new SimpleDateFormat(permissFormats[i]);
-				sdfObj.setLenient(false);
+				sdfObj.applyPattern(patternVal);
 				sdfObj.parse(dateValue);
 				returnVal = true;
-				System.out.println("Looks like a valid date for Date Value :"+dateValue+": For Format:"+permissFormats[i]);
+				System.out.println("Looks like a valid date for Date Value :"+dateValue+": For Format:"+patternVal);
 				break;
 			}
-			catch(ParseException e)
-			{
-				System.out.println("Parse Exception Occured for Date Value :"+dateValue+":And Format:"+permissFormats[i]);
+			catch(ParseException e){
+				System.out.println("Parse Exception Occured for Date Value :"+dateValue+":And Format:"+patternVal);
+				e.printStackTrace();
+			}
+			catch(Exception e){
+				System.out.println("Generic Exception Occured While Parsing Date Value");
+				e.printStackTrace();
 			}
 		}
 		return returnVal;
+	}
+
+	/*
+	 * 
+	 * Method to load the date formats.
+	 * These date formats are specified in a text file where each line represents a format.
+	 * The input date should be validated against these formats.
+	 * 
+	 * */
+	public static void loadDateFormats(String filePath)
+	{
+		FileInputStream fisDateFmObj = null;
+		BufferedReader dateFmRdr = null;
+		validFormatsList = new ArrayList<String>();
+		try	{
+			fisDateFmObj = new FileInputStream(filePath);
+			dateFmRdr = new BufferedReader(new InputStreamReader(fisDateFmObj));
+			String readLineStr = null;
+			while((readLineStr = dateFmRdr.readLine())!=null)
+			{
+				readLineStr = new String(readLineStr.trim());
+				System.out.println("Date Format Specified In File : "+readLineStr);
+				validFormatsList.add(readLineStr);
+			}
+		} catch (FileNotFoundException e) {
+			System.out.println("File specifying date formats has not been found at the specified path.");
+			e.printStackTrace();
+		} catch (IOException e) {
+			System.out.println("An IO Exception occured while readling formats file");
+			e.printStackTrace();
+		} catch (Exception e) {
+			System.out.println("A Generic Exception Occured While Reading Formats File.");
+			e.printStackTrace();
+		}
+		
+		finally{
+			try {
+				if(fisDateFmObj!=null)
+				{
+					fisDateFmObj.close();
+				}
+			}catch(IOException e){
+				System.out.println("Exception while closing File Input Stream.");
+				e.printStackTrace();
+			}
+			finally
+			{
+				try {
+					if(dateFmRdr!=null)
+					{
+						dateFmRdr.close();
+					}
+				} catch (IOException e) {
+					System.out.println("Exception while closing Buffered Reader Stream.");
+					e.printStackTrace();
+				}
+			}
+		}
 	}
 }
