@@ -38,22 +38,29 @@ public class MultiFormatDateValidation {
 	 */
 	public static void main(String[] args) {
 
-		System.out.println("Starting Data Validation Check");
-		/*
-		 * 
-		 * Loading Pre-Defined Date Formats from File.
-		 * 
-		 */
+		try {
+			/*
+			 * 
+			 * Loading Pre-Defined Date Formats from File.
+			 * 
+			 */
+			String filePath = args[0].trim();
+			System.out.println("FilePath Specified is"+filePath);
+			loadDateFormats(filePath);
 
-		loadDateFormats("D:\\DATA\\Tarun\\Development\\Docs\\Date_Formats.txt");
+			/* Below Test Case is format and validity test.
+			 * 2012 was a leap year and hence 29 is a valid date.
+			 * Change year to 2013 and test.
+			 */
 
-		/* Below Test Case is format and validity test.
-		 * 2012 was a leap year and hence 29 is a valid date.
-		 * Change year to 2013 and test.
-		 */
-
-		boolean validationResult = isDateValid("02/29/2012 00.00.00");
-		System.out.println("Date Validation Result is :"+validationResult);
+			boolean validationResult = isDateValid("02/29/2012 00:00:00");
+			System.out.println("Date Validation Result is :"+validationResult);
+		} catch(ArrayIndexOutOfBoundsException e){
+			System.out.println("Oops.Expected a Input Parameter. Did not Find One. You should specify correct file name to proceed.");
+		}
+		catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 	
 	/*
