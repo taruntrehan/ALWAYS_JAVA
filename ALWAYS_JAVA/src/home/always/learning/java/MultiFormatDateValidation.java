@@ -37,6 +37,8 @@ public class MultiFormatDateValidation {
 	 * @param args
 	 */
 	public static void main(String[] args) {
+		String filePath = null;
+		String dateVal = null;
 
 		try {
 			/*
@@ -44,17 +46,35 @@ public class MultiFormatDateValidation {
 			 * Loading Pre-Defined Date Formats from File.
 			 * 
 			 */
-			String filePath = args[0].trim();
-			System.out.println("FilePath Specified is"+filePath);
-			loadDateFormats(filePath);
-
+			try
+			{
+				filePath = args[0].trim();
+				System.out.println("FilePath Specified is"+filePath);
+			} catch(ArrayIndexOutOfBoundsException e)
+			{
+				System.out.println("Oops.Expected a Input Parameter. Did not Find One. You should specify correct file name to proceed.");
+			}
+			
 			/* Below Test Case is format and validity test.
 			 * 2012 was a leap year and hence 29 is a valid date.
 			 * Change year to 2013 and test.
 			 */
-
-			boolean validationResult = isDateValid("02/29/2012 00:00:00");
-			System.out.println("Date Validation Result is :"+validationResult);
+			
+			try
+			{
+				dateVal = args[1].trim();
+				System.out.println("Date Value Specified for validation is"+dateVal);
+			} catch(ArrayIndexOutOfBoundsException e)
+			{
+				System.out.println("Oops.Expected a Input Parameter. Did not Find One. You should specify date value to proceed.");
+			}
+			
+			loadDateFormats(filePath);
+			boolean validationResult = isDateValid(dateVal);
+			if(!validationResult)
+			{
+				System.out.println("The Date provided i.e. "+dateVal+" has failed validation for pre-defined formats.");
+			}
 		} catch(ArrayIndexOutOfBoundsException e){
 			System.out.println("Oops.Expected a Input Parameter. Did not Find One. You should specify correct file name to proceed.");
 		}
@@ -88,8 +108,8 @@ public class MultiFormatDateValidation {
 				break;
 			}
 			catch(ParseException e){
-				System.out.println("Parse Exception Occured for Date Value :"+dateValue+":And Format:"+patternVal);
-				e.printStackTrace();
+				//System.out.println("Parse Exception Occured for Date Value :"+dateValue+":And Format:"+patternVal);
+				//e.printStackTrace();
 			}
 			catch(Exception e){
 				System.out.println("Generic Exception Occured While Parsing Date Value");
