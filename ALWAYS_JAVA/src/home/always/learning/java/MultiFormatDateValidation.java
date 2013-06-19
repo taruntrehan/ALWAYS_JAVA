@@ -138,7 +138,7 @@ public class MultiFormatDateValidation {
 			while((readLineStr = dateFmRdr.readLine())!=null)
 			{
 				readLineStr = new String(readLineStr.trim());
-				System.out.println("Date Format Specified In File : "+readLineStr);
+				//System.out.println("Date Format Specified In File : "+readLineStr);
 				validFormatsList.add(readLineStr);
 			}
 		} catch (FileNotFoundException e) {
