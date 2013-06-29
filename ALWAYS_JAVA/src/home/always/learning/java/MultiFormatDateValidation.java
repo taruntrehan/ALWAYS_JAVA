@@ -114,15 +114,13 @@ public class MultiFormatDateValidation {
 		/*
 		 * Loop through list of formats and validate using JAVA API.
 		 */
-		String patternVal = null;
 		for (int i = 0; i < validFormatsList.size(); i++) {
-			patternVal = new String(validFormatsList.get(i));
 			try {
-				sdfObj.applyPattern(patternVal);
+				sdfObj.applyPattern(validFormatsList.get(i));
 				sdfObj.parse(dateValue);
 				returnVal = true;
 				System.out.println("Looks like a valid date for Date Value :"
-						+ dateValue + ": For Format:" + patternVal);
+						+ dateValue + ": For Format:" + validFormatsList.get(i));
 				break;
 			} catch (ParseException e) {
 				// System.out.println("Parse Exception Occured for Date Value :"+dateValue+":And Format:"+patternVal);
