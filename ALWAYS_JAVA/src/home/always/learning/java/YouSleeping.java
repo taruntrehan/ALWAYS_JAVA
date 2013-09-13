@@ -9,6 +9,11 @@ package home.always.learning.java;
  */
 public class YouSleeping implements Runnable{
 
+	/**
+	 * The following time denotes the duration after which this program will call to check server status.
+	 * I have set to 30 minutes.
+	 */
+	private static final long retryPrimCallDur = 1800000;
 	@Override
 	public void run() 
 	{
@@ -30,7 +35,7 @@ public class YouSleeping implements Runnable{
 				checkThreadObj.start();
 				checkThreadObj.join();
 				System.out.println("Check Server Completed");
-				Thread.sleep(10000L);
+				Thread.sleep(retryPrimCallDur);
 			} catch (InterruptedException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
