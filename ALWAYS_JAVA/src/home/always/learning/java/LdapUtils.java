@@ -85,8 +85,10 @@ public class LdapUtils {
 				// System.out.println("Search Object Name:" + srchResObj);
 				Attributes attributesList = srchResObj.getAttributes();
 				if (attributesList != null) {
-					String userGroups = attributesList.get("memberof").get()
-							.toString();
+					// The use of "get" function on attribute will return limited string.
+					// Be very careful.
+					// To fetch entrire string of member ship; just perform a toString() operation on attribute object.
+					String userGroups = attributesList.get("memberof").toString();
 					System.out.println("User Groups String:" + userGroups);
 					if (userGroups != null
 							&& userGroups
