@@ -81,7 +81,7 @@ public class WorkerThreadOne implements Runnable {
 		try 
 		{
 			System.out.println("The WorkerThreadOne has started processing....");
-			if(callActionName.equals("BaseCall"))
+			if("BaseCall".equals(callActionName))
 			{
 				System.out.println("Fetching details for Base call for :"+Thread.currentThread().getName());
 				//Fetch Details from Database in a list.
@@ -92,7 +92,7 @@ public class WorkerThreadOne implements Runnable {
 				Thread.sleep(10000L);
 				System.out.println("Base Call Thread Finished Processing");
 			}
-			else if(callActionName.equals("CoreCall"))
+			else if("CoreCall".equals(callActionName))
 			{
 				System.out.println("Fetching details for Core call for :"+Thread.currentThread().getName());
 				//Fetch Details from Database in a list.
