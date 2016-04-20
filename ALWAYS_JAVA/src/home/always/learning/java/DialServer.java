@@ -70,8 +70,8 @@ public class DialServer {
 		return responseCode;
 	}
 	
-	private static void alertOwners()
+	/*private static void alertOwners()
 	{
 		
-	}
+	}*/
 }
